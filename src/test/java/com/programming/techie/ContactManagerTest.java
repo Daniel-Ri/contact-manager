@@ -1,6 +1,9 @@
 package com.programming.techie;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,9 +25,9 @@ class ContactManagerTest {
     @Test
     @DisplayName("Should Create Contact")
     public void shouldCreateContact() {
-        contactManager.addContact("John","Doe","0123456789");
-        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
-        Assertions.assertEquals(1, contactManager.getAllContacts().size());
+        contactManager.addContact("John", "Doe", "0123456789");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
     }
 
     @Test
@@ -49,6 +52,24 @@ class ContactManagerTest {
         Assertions.assertThrows(RuntimeException.class, () -> {
             contactManager.addContact("John", "Doe", null);
         });
+    }
+
+    @Test
+    @DisplayName("Should Create Contact Only On Mac OS")
+    @EnabledOnOs(value = OS.MAC, disabledReason = "Should Run only on MAC")
+    public void shouldCreateContactOnMac() {
+        contactManager.addContact("John", "Doe", "0123456789");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+    @Test
+    @DisplayName("Should Not Create Contact On Windows OS")
+    @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Disabled on Windows")
+    public void shouldNotCreateContactOnlyOnWindows() {
+        contactManager.addContact("John", "Doe", "0123456789");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
     }
 
     @AfterEach
