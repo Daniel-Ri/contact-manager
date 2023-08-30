@@ -143,6 +143,13 @@ class ContactManagerTest {
         }
     }
 
+    @Test
+    @DisplayName("Test Should Be Disabled")
+    @Disabled
+    public void shouldBeDisabled() {
+        throw new RuntimeException("Test Should Not be executed");
+    }
+
     @AfterEach
     public void tearDown() {
         System.out.println("Should Execute After Each Test");
